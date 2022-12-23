@@ -7,10 +7,9 @@ function Home() {
   return (
     <div>
       <>
-        <br />
-        <Navbar bg="light" variant="light">
+        <Navbar bg="info" className="navbar-light" variant="light">
           <Container>
-            <Navbar.Brand href="/" className="text-bold">
+            <Navbar.Brand href="/" className="text-bold ">
               Ode To Code
             </Navbar.Brand>
             <Nav className="me-auto">
