@@ -4,6 +4,7 @@ import Home from "./components/screens/Home";
 // import BA from "./components/cards";
 import BasicExample from "./components/cards";
 import Create from "./components/UI/Create";
+// import Home from "./components/screens/Home";
 import { Route, Routes } from "react-router-dom";
 
 function App() {
