@@ -51,9 +51,9 @@ function ViewOne() {
   return (
     <div>
       <div className="d-flex flex-row justify-content-end mt-3 ">
-        <Button variant="outlined" color="primary">
+        {/* <Button variant="outlined" color="primary">
           Update
-        </Button>
+        </Button> */}
         <Button variant="outlined" color="error" onClick={deleteHackathon}>
           Delete
         </Button>
