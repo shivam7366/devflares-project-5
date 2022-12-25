@@ -1,6 +1,8 @@
 import { fontWeight } from "@mui/system";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 // import UpcomingTab from "./UI/UpcomingTab";
 const hackaathoncard = [
   {
@@ -42,6 +44,45 @@ const hackaathoncard = [
 ];
 
 function BasicExample() {
+  const navigate = useNavigate();
+  const [hackathon, setHackathon] = useState([]);
+  async function getAllHackathons() {
+    console.log("function running");
+    const response = await fetch(
+      `https://devflares-project-5-default-rtdb.firebaseio.com/hackathon.json`
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.message || "Could not fetch quotes.");
+    }
+    console.log("data came");
+
+    const transformedHackathons = [];
+
+    for (const key in data) {
+      console.log(data[key]);
+      const hackathons = {
+        id: key,
+        ...data[key],
+      };
+
+      transformedHackathons.push(hackathons);
+    }
+    console.log(transformedHackathons);
+    setHackathon(transformedHackathons);
+    // console.log(hackathon);
+  }
+
+  useEffect(() => {
+    getAllHackathons();
+    // console.log(hackathon);
+  }, []);
+  const routeChangeHandler = (item) => {
+    console.log("clicked");
+
+    navigate(`/hackathon/${item.id}`);
+  };
+
   return (
     <>
       {/* <Home /> */}
@@ -109,20 +150,23 @@ function BasicExample() {
       >
         Upcoming Hackathons
       </p>
-      <div className="container d-flex flex-row flex-wrap ">
-        {hackaathoncard.map((hackaathoncard) => (
+
+      <div className="container d-flex flex-row flex-wrap row">
+        {hackathon.map((item) => (
           <div
-            className="container d-flex flex-row flex-wrap "
-            style={{ width: "22rem" }}
+            className="container d-flex flex-row flex-wrap col-4 "
+            key={item.id}
           >
-            <Card className="mt-3">
+            <Card className="mt-3 " style={{ minWidth: "22rem !important" }}>
               <Card.Body>
-                <Card.Title>Hackathon</Card.Title>
-                <Card.Text>
-                  Gain substantial experience by solving real-world problems and
-                  pit against others to come up with
-                </Card.Text>
-                <Button variant="primary" style={{ background: "#003145" }}>
+                <Card.Title>{item.title}</Card.Title>
+                <small>{item.shortDescription}</small>
+                <Card.Text>{item.details}</Card.Text>
+                <Button
+                  variant="primary"
+                  style={{ background: "#003145" }}
+                  onClick={routeChangeHandler.bind(null, item)}
+                >
                   View More
                 </Button>
               </Card.Body>
