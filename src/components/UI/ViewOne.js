@@ -1,11 +1,13 @@
 import { Button } from "@mui/material";
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 function ViewOne() {
+  const navigate = useNavigate();
   const params = useParams();
   //   console.log(params);
   let hackathonId = params.id;
+  console.log(hackathonId);
   const [loadedHackathon, setLoadedHackathon] = React.useState({});
 
   async function getSingleHackathon(hackathonId) {
@@ -30,9 +32,10 @@ function ViewOne() {
   React.useEffect(() => {
     getSingleHackathon(hackathonId);
   }, []);
-  async function deleteHackathon(hackathonId) {
+  async function deleteHackathon() {
+    // console.log(hackathonId);
     const response = await fetch(
-      `https://devflares-project-5-default-rtdb.firebaseio.com/hackathon/${hackathonId}.json`,
+      `https://devflares-project-5-default-rtdb.firebaseio.com/hackathon/${params.id}.json`,
       {
         method: "DELETE",
       }
@@ -42,6 +45,7 @@ function ViewOne() {
       throw new Error(data.message || "Could not delete quote.");
     }
     console.log(data);
+    navigate("/");
   }
 
   return (
